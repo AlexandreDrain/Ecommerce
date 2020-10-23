@@ -8,14 +8,25 @@
     <div class="d-flex flex-column align-items-center">
         {% for article in articles %}
             <div class="card mb-3 col-lg-8 col-md-6">
-                <div class="d-flex flex-row flex-wrap">
-                    {% for picture in article.pictures %}
-                        {% set img = picture.nameOfPicture == null ? "images/pas_dimage.jpg" : picture.passOfPicture ~ picture.nameOfPicture %}
-                            <figure class="mb-3 col-6">
-                                <img src="{{ asset("assets/" ~ img) }}" class="card-img-top" alt="Image illustrant le titre du jeu">
-                            </figure>
-                    {% endfor %}
-                </div>
+                {% if article.pictures|length > 1 %}
+                    <div class="d-flex flex-row flex-wrap">
+                        {% for picture in article.pictures %}
+                            {% set img = picture.nameOfPicture == null ? "images/pas_dimage.jpg" : picture.passOfPicture ~ picture.nameOfPicture %}
+                                <figure class="mb-3 col-6">
+                                    <img src="{{ asset("assets/" ~ img) }}" class="card-img-top" alt="Image illustrant le titre du jeu">
+                                </figure>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div>
+                        {% for picture in article.pictures %}
+                            {% set img = picture.nameOfPicture == null ? "images/pas_dimage.jpg" : picture.passOfPicture ~ picture.nameOfPicture %}
+                                <figure class="mb-3">
+                                    <img src="{{ asset("assets/" ~ img) }}" class="card-img-top" alt="Image illustrant le titre du jeu">
+                                </figure>
+                        {% endfor %}
+                    </div>
+                {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">{{ article.title }}</h5>
                     <p class="card-text">{{ article.content|slice(0, 50)|raw }}...</p>
@@ -29,4 +40,5 @@
             </div>
         {% endfor %}
     </div>
+</div>
 {% endblock %}

@@ -13,7 +13,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ product.title }}</h5>
                     <p class="card-text">{{ product.description }}</p>
-                    <div class="d-flex justify-content-between flex-wrap">
+                    <div class="d-flex justify-content-between flex-wrap align-self-end">
                         <p class="card-text"><small class="text-muted">Post crée le {{ product.createdAt|date("Y-m-d") }}</small></p>
                         <div class="ml-auto">
                             <a href="{{ path("cart_add", {"id" : product.id}) }}" class="btn btn-outline-salmon2"><small>Ajouter au panier</small></a>

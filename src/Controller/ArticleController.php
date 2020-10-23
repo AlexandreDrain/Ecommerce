@@ -14,7 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 /**
  * @Route("/article")
  * 
- * @Security("is_granted('ROLE_REPORTER')")
  */
 class ArticleController extends AbstractController
 {
@@ -31,6 +30,8 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/nouvel_article", name="article_new")
+     * 
+     * @Security("is_granted('ROLE_REPORTER')")
      */
     public function new(Request $request, EntityManagerInterface $entityManager)
     {
@@ -58,6 +59,7 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/détails/{slug}", name="article_show")
+     * 
      */
     public function show(Article $article)
     {
@@ -68,6 +70,9 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/modifier/{slug}", name="article_edit")
+     * 
+     * @Security("is_granted('ROLE_REPORTER')")
+     * 
      */
     public function edit(Request $request, EntityManagerInterface $entityManager)
     {
