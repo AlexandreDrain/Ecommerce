@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des produits{% endblock %}
+
+{% block body %}
+<div class="container-fluid mt-3">
+    <h1 class="text-center mb-3">Liste des produits</h1>
+    <div class="d-flex flex-wrap justify-content-between">
+        {% for product in products %}
+            <div class="card mb-3 col-lg-4 col-md-6">
+                {% set img = product.picture == null ? "images/pas_dimage.jpg" :  product.picture %}
+                <img src="{{ asset("assets/" ~ img) }}" class="card-img-top" alt="Image illustrant le titre du jeu">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.title }}</h5>
+                    <p class="card-text">{{ product.description }}</p>
+                    <div class="d-flex justify-content-between flex-wrap">
+                        <p class="card-text"><small class="text-muted">Post crée le {{ product.createdAt|date("Y-m-d") }}</small></p>
+                        <div class="ml-auto">
+                            <a href="{{ path("cart_add", {"id" : product.id}) }}" class="btn btn-outline-salmon2"><small>Ajouter au panier</small></a>
+                            <a href="{{ path("product_show", {"slug" : product.slug}) }}" class="btn btn-outline-mer"><small>Détails du jeu</small></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

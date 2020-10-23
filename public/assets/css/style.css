@@ -1,0 +1,182 @@
+* {
+    scroll-behavior: smooth;
+}
+
+.ombre
+{
+  display: block;
+  box-shadow: 0px 2px 15px 0px rgba(0,0,0,0.4)!important;
+}
+
+:root {
+  --mer: #06c293;
+  --violet: #781f9b;
+  --salmon: #f5b7b1b3;
+  --salmon2: #db6359;
+}
+
+.btn-outline-violet {
+  color: #781f9b;
+  border-color: #781f9b;
+}
+
+.btn-outline-violet:hover {
+  color: #fff;
+  background-color: var(--violet);
+  border-color: var(--violet);
+}
+var(--salmon)
+.btn-outline-violet:focus, .btn-outline-violet.focus {
+  box-shadow: 0 0 0 0.2rem rgba(59, 3, 133, 0.5);
+}
+
+.btn-outline-violet.disabled, .btn-outline-violet:disabled {
+  color: var(--violet);
+  background-color: transparent;
+}
+
+.btn-outline-violet:not(:disabled):not(.disabled):active, .btn-outline-violet:not(:disabled):not(.disabled).active,
+.show > .btn-outline-violet.dropdown-toggle {
+  color: #fff;
+  background-color: var(--violet);
+  border-color: var(--violet);
+}
+
+.btn-outline-violet:not(:disabled):not(.disabled):active:focus, .btn-outline-violet:not(:disabled):not(.disabled).active:focus,
+.show > .btn-outline-violet.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(59, 3, 133, 0.5);
+}
+
+.btn-outline-violet:not(:disabled):not(.disabled):active:focus, .btn-outline-violet:not(:disabled):not(.disabled).active:focus,
+.show > .btn-outline-violet.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgb(255, 255, 255);
+}
+
+.btn-outline-mer {
+  color: var(--mer);
+  border-color: var(--mer);
+}
+
+.btn-outline-mer:hover {
+  color: #fff;
+  background-color: var(--mer);
+  border-color: var(--mer);
+}
+
+.btn-outline-mer:focus, .btn-outline-mer.focus {
+  box-shadow: 0 0 0 0.2rem rgb(255, 255, 255);
+}
+
+.btn-outline-mer.disabled, .btn-outline-mer:disabled {
+  color: var(--mer);
+  background-color: transparent;
+}
+
+.btn-outline-mer:not(:disabled):not(.disabled):active, .btn-outline-mer:not(:disabled):not(.disabled).active,
+.show > .btn-outline-mer.dropdown-toggle {
+  color: #fff;
+  background-color: var(--mer);
+  border-color: var(--mer);
+}
+
+.btn-outline-salmon {
+  color: var(--salmon);
+  border-color: var(--salmon);
+}
+
+.btn-outline-salmon:hover {
+  color: #fff;
+  background-color: var(--salmon);
+  border-color: var(--salmon);
+}
+
+.btn-outline-salmon:focus, .btn-outline-salmon.focus {
+  box-shadow: 0 0 0 0.2rem rgb(255, 255, 255);
+}
+
+.btn-outline-salmon.disabled, .btn-outline-salmon:disabled {
+  color: var(--salmon);
+  background-color: transparent;
+}
+
+.btn-outline-salmon:not(:disabled):not(.disabled):active, .btn-outline-salmon:not(:disabled):not(.disabled).active,
+.show > .btn-outline-salmon.dropdown-toggle {
+  color: #fff;
+  background-color: var(--salmon);
+  border-color: var(--salmon);
+}
+
+.btn-outline-salmon:not(:disabled):not(.disabled):active:focus, .btn-outline-salmon:not(:disabled):not(.disabled).active:focus,
+.show > .btn-outline-salmon.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgb(255, 255, 255);
+}
+
+.btn-outline-salmon2 {
+  color: var(--salmon2);
+  border-color: var(--salmon2);
+}
+
+.btn-outline-salmon2:hover {
+  color: #fff;
+  background-color: var(--salmon2);
+  border-color: var(--salmon2);
+}
+
+.btn-outline-salmon2:focus, .btn-outline-salmon2.focus {
+  box-shadow: 0 0 0 0.2rem rgb(255, 255, 255);
+}
+
+.btn-outline-salmon2.disabled, .btn-outline-salmon2:disabled {
+  color: var(--salmon2);
+  background-color: transparent;
+}
+
+.btn-outline-salmon2:not(:disabled):not(.disabled):active, .btn-outline-salmon2:not(:disabled):not(.disabled).active,
+.show > .btn-outline-salmon2.dropdown-toggle {
+  color: #fff;
+  background-color: var(--salmon2);
+  border-color: var(--salmon2);
+}
+
+.btn-outline-salmon2:not(:disabled):not(.disabled):active:focus, .btn-outline-salmon2:not(:disabled):not(.disabled).active:focus,
+.show > .btn-outline-salmon2.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgb(255, 255, 255);
+}
+
+.bg-mer {
+  background-color: var(--mer);
+}
+
+.bg-salmon
+{
+  background-color: var(--salmon);
+}
+
+.bg-salmon2
+{
+  background-color: var(--salmon2);
+}
+
+.bg-violet {
+  background-color: var(--violet);
+}
+
+.crimson
+{
+    background-color: crimson;
+}
+
+.grey
+{
+    background-color: grey;
+}
+
+.yellow
+{
+    background-color: yellow;
+}
+
+.violet
+{
+    background-color: #d614bc;
+}

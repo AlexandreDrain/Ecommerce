@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon panier{% endblock %}
+
+{% block body %}
+<div class="container-fluid mt-3">
+    <h1 class="text-center mb-3">Liste des jeux dans mon panier</h1>
+    <div class="d-flex flex-wrap justify-content-center">
+        {% for key, product in app.session.get("cart") %}
+            <div class="card mb-3 col-4">
+                {% set img = product.picture == null ? "images/pas_dimage.jpg" :  product.picture %}
+                <img src="{{ asset("assets/" ~ img) }}" class="card-img-top" alt="Image illustrant le titre du jeu">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.title }}</h5>
+                    <p class="card-text">Prix individuel: {{ product.price }}</p>
+                    <p class="card-text"><small>Prix total, pour {{ product.quantity }} produit : {{ product.price * product.quantity }}</small></p>
+                    <div class="d-flex justify-content-end">
+                        <a href="{{ path("cart_remove", {"id" : key}) }}" class="btn btn-outline-mer">{{ product.quantity > 1 ? "Supprimer un produit" : "Supprimer le produit" }}</a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <!-- <h3 class="text-center">Pas de jeux dnas votre panier</h3> -->
+            <aside>
+                <figure class="text-center">
+                    <img src="{{ asset("assets/images/link_got_nothing.jpg") }}" alt="image de link, Zelda, qui n'obtient .. rien" class="col-8">
+                </figure>
+            </aside>
+        {% endfor %}
+    </div>
+    {% if app.session.get("cart") != [] %}
+        <a href="{{ path("proceder_achat") }}" class="btn btn-outline-mer">Payer</a>
+    {% endif %}
+</div>
+{% endblock %}

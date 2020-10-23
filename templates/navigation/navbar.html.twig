@@ -1,0 +1,98 @@
+<nav class="navbar navbar-expand-xl navbar-light bg-salmon">
+    <a class="navbar-brand" href="{{ path("home") }}">TGYW</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path("home") }}">Acceuil</a>
+            </li>
+            {% if is_granted("ROLE_ADMIN") %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Produits
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ path("products") }}">Nos jeux PC</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ path("admin_product_new") }}">Nouveau produit</a>
+                    </div>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path("products") }}">Nos jeux PC</a>
+                </li>
+            {% endif %}
+            {% if is_granted("ROLE_REPORTER") %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Articles
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ path("articles") }}">Tout les articles</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ path("article_new") }}">Nouvel article</a>
+                    </div>
+                </li>
+            {% elseif is_granted("ROLE_USER") and not is_granted("ROLE_REPORTER") %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Articles
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ path("articles") }}">Tout les articles</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Demander l'autorisation de poster des articles</a>
+                    </div>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path("articles") }}">Tout les articles</a>
+                </li>
+            {% endif %}
+            {% if is_granted("ROLE_ADMIN") %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path("categorys") }}">Les catégories</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Administration
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ path("admin_products") }}">Administration des produits</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ path("admin_pictures") }}">Administration des images</a>
+                    </div>
+                </li>
+            {% endif %}
+        </ul>
+        <form class="form-inline ml-auto col-4" action="{{ path("searched") }}" method="get">
+            <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search" name="q">
+            <input class="btn btn-outline-mer my-2 my-sm-0" type="submit" value="Search" name="valider">
+        </form>
+        <ul class="navbar-nav mr-3 ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path("cart") }}">Mon panier</a>
+            </li>
+            {% if app.user %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path("app_logout") }}">Se deconnecter</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path("app_register") }}">S'enregistrer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path("app_login") }}">Se connecter</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

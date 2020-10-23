@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gallerie{% endblock %}
+
+{% block body %}
+<div class="container mt-3">
+    <h1 class="text-center mb-3">Gallerie</h1>
+    <div class="text-center">
+        <a href="{{ path('admin_picture_new') }}" class="btn btn-outline-salmon2">Ajouter une image</a>
+    </div>
+    <div class="d-flex flex-row mb-3 mt-3 justify-content-center flex-wrap">
+        {% for picture in pictures %}
+            <div class="col-4 mb-2">
+                {% set img = picture.nameOfPicture == null ? "images/pas_dimage.jpg" : picture.passOfPicture ~ picture.nameOfPicture %}
+                <img src="{{ asset("assets/" ~ img) }}" class="card-img-top" alt="Image illustrant le titre du jeu">
+                {# <p class="card-text">{{ picture.description }}</p> #}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

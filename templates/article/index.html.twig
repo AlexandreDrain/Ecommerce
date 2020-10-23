@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tout les articles{% endblock %}
+
+{% block body %}
+<div class="container mt-3">
+    <h1 class="text-center mb-3">Tout les articles sur vos jeux favoris !</h1>
+    <div class="d-flex flex-column align-items-center">
+        {% for article in articles %}
+            <div class="card mb-3 col-lg-8 col-md-6">
+                <div class="d-flex flex-row flex-wrap">
+                    {% for picture in article.pictures %}
+                        {% set img = picture.nameOfPicture == null ? "images/pas_dimage.jpg" : picture.passOfPicture ~ picture.nameOfPicture %}
+                            <figure class="mb-3 col-6">
+                                <img src="{{ asset("assets/" ~ img) }}" class="card-img-top" alt="Image illustrant le titre du jeu">
+                            </figure>
+                    {% endfor %}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ article.title }}</h5>
+                    <p class="card-text">{{ article.content|slice(0, 50)|raw }}...</p>
+                    <div class="d-flex justify-content-between flex-wrap">
+                        <p class="card-text"><small class="text-muted">Post crée le {{ article.publishedAt|date("Y-m-d") }}</small></p>
+                        <div class="ml-auto">
+                            <a href="{{ path("article_show", {"slug" : article.slug}) }}" class="btn btn-outline-mer"><small>Détails de l'article</small></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

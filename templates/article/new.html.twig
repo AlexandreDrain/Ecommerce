@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvel article !{% endblock %}
+
+{% block body %}
+<div class="container mt-3">
+    <h1 class="text-center mb-3">Nouvel article</h1>
+    <div class="shadow-lg ml-5 mr-5 ombre p-3 rounded">
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <input class="btn btn-outline-salmon2" type="submit" name="submit" value="Valider">
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration liste des produits{% endblock %}
+
+{% block body %}
+<div class="container mt-3">
+    <h1 class="text-center mb-3">Administration des produits</h1>
+    <div class="d-flex flex-wrap justify-content-between">
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Titre du produit</th>
+                    <th scope="col">Prix</th>
+                    <th scope="col">Plus d'infos</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for product in products %}
+                <tr>
+                    <th scope="row">{{ product.id }}</th>
+                    <td>{{ product.title }}</td>
+                    <td>{{ product.price }}</td>
+                    <td class="d-flex flex-wrap">
+                        <a href="{{ path("product_show", {"slug" : product.slug}) }}"
+                            class="btn btn-outline-mer"><small>Détails du jeu</small></a>
+                        <a href="{{ path("admin_product_edit", {"slug" : product.slug}) }}"
+                            class="btn btn-outline-warning ml-2"><small>Modifier</small></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="navigation">
+        {{ knp_pagination_render(products) }}
+    </div>
+</div>
+{% endblock %}

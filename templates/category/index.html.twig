@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des catégories{% endblock %}
+
+{% block body %}
+<div class="container mt-3">
+    <h1 class="text-center mb-3">Liste des catégories</h1>
+    <div class="d-flex flex-wrap justify-content-between">
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Titre</th>
+                    <th scope="col">Créée le</th>
+                </tr>
+            </thead>
+        {% for category in categories %}
+            <tbody>
+                <tr>
+                    <th scope="row">{{ category.id }}</th>
+                    <td>{{ category.title }}</td>
+                    <td>{{ category.createdAt|date("Y-m-d") }}</td>
+                </tr>
+            </tbody>
+        {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}
