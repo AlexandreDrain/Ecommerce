@@ -11,15 +11,26 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ArticleFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('content')
-            ->add('pictures')
+            ->add('title', null, [
+                'label' => 'Titre'
+            ])
+            ->add('content', TextareaType::class, [
+                'label' => 'Contenu',
+                'attr' => [
+                    'placeholder' => 'Les balises html sont prise en compte, n\'hésitez pas à les utiliser !'
+
+                ]
+            ])
+            ->add('pictures', null, [
+                'label' => 'Choisissez une image'
+            ])
             ->add('product', EntityType::class, [
                 'label' => 'Liste des jeux',
                 'mapped' => true,

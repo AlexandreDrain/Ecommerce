@@ -7,7 +7,7 @@
     <h1 class="text-center mb-3">Liste des jeux dans mon panier</h1>
     <div class="d-flex flex-wrap justify-content-center">
         {% for key, product in app.session.get("cart") %}
-            <div class="card mb-3 col-4">
+            <div class="card mb-3 col-md-4">
                 {% set img = product.picture == null ? "images/pas_dimage.jpg" :  product.picture %}
                 <img src="{{ asset("assets/" ~ img) }}" class="card-img-top" alt="Image illustrant le titre du jeu">
                 <div class="card-body">
