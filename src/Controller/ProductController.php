@@ -85,7 +85,7 @@ class ProductController extends AbstractController
      * @Route("/Répondre/{slug}/commentaire/{productReview_id}", name="comment_response")
      * @ParamConverter("productReview", options={"mapping": {"productReview_id": "id"}})
      */
-    public function ResponseToAComment(Request $request, Product $product, ProductReview $productReview, ?UserInterface $user, EntityManagerInterface $entityManager)gi
+    public function ResponseToAComment(Request $request, Product $product, ProductReview $productReview, ?UserInterface $user, EntityManagerInterface $entityManager)
     {
         if($request->isXmlHttpRequest() != true) {
             return new JsonResponse(['statut' => 'error', 'error' => 'Accès non autorisé.']);
