@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
  
 use App\Entity\Product;
- 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
  
@@ -37,6 +36,14 @@ class ProductFixtures extends Fixture
                     'picture'     => 'images/hades.png',
                     'price'         => 29.99
                 ]
+            ],
+            'Social deduction game' => [
+                [
+                    'title'        => "Among Us",
+                    'description' => "Jeu multi joueur, online donc. Vous êtes au maximum dix sur une station, parmis vous il y a deux imposteurs au maximu, vous devez découvrir qui ils sont avant qu'il n'aient tué tout l'équipage ... Bonne chance !",
+                    'picture'     => 'images/favicon.jpg',
+                    'price'        => 19.99
+                ],
             ],
             'MMORPG' => [
                 [

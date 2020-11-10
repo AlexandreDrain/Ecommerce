@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductReviewRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +38,16 @@ class ProductReview
      * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="productReviews")
      */
     private $product;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ResponseToProductReview::class, mappedBy="RespondTo")
+     */
+    private $responseToProductReviews;
+
+    public function __construct()
+    {
+        $this->responseToProductReviews = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -86,6 +98,37 @@ class ProductReview
     public function setProduct(?Product $product): self
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ResponseToProductReview[]
+     */
+    public function getResponseToProductReviews(): Collection
+    {
+        return $this->responseToProductReviews;
+    }
+
+    public function addResponseToProductReview(ResponseToProductReview $responseToProductReview): self
+    {
+        if (!$this->responseToProductReviews->contains($responseToProductReview)) {
+            $this->responseToProductReviews[] = $responseToProductReview;
+            $responseToProductReview->setRespondTo($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResponseToProductReview(ResponseToProductReview $responseToProductReview): self
+    {
+        if ($this->responseToProductReviews->contains($responseToProductReview)) {
+            $this->responseToProductReviews->removeElement($responseToProductReview);
+            // set the owning side to null (unless already changed)
+            if ($responseToProductReview->getRespondTo() === $this) {
+                $responseToProductReview->setRespondTo(null);
+            }
+        }
 
         return $this;
     }

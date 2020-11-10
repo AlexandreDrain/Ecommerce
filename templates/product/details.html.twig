@@ -42,9 +42,35 @@
                     <p class="card-text">{{ avis.content }}</p>
                     <div class="d-flex justify-content-between">
                         <p class="card-text"><small class="text-muted">Commenté à {{ avis.writedAt|date("Y-m-d") }}</small></p>
+                        <button class="reponseButton btn btn-outline-mer">Répondre</button>
                     </div>
                 </div>
             </div>
+            <div class="d-flex justify-content-end zoneResponse">
+                {% for response in responseToProductReviews %}
+                    <div id="zoneReponse" class="col-8">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ response.author }} TO ----> {{ response.RespondTo.author }}</h5>
+                                <hr>
+                                <p class="card-text">{{ response.content }}</p>
+                                <div class="d-flex justify-content-between">
+                                    <p class="card-text"><small class="text-muted">Commenté à {{ response.writedAt|date("Y-m-d") }}</small></p>
+                                    <button class="reponseButton btn btn-outline-mer">Répondre</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+                
+            {{ form_start(formResponse, {'action': path('comment_response', {'slug': product.slug, 'productReview_id': avis.id}), 'method': 'POST', 'attr' : {"class" : "response"} }) }}
+                {{ form_widget(formResponse, {'attr' : {"label" : "Répondre à " ~ avis.author } }) }}
+                <!-- Moi aussi c'est trop bien, j'adore l'histoire, même si elle est glauque -->
+                <input type="submit" value="Soumettre" class="btn btn-outline-mer">
+                <p class="deleteResponse btn btn-outline-warning mt-3">Annuler ma réponse</p>
+            {{ form_end(formResponse) }}
+
         {% endfor %}
     </div>
 </div>

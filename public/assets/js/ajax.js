@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    $('.response').hide();
+    $('.deleteResponse').hide();
+
     $('#add_cart').on('click',function() {
         // ajout au panier
         $.getJSON($(this).data('url'), {quantity : 1})
@@ -55,5 +58,36 @@ $(document).ready(function() {
             }
             $(this).next('.custom-file-label').text(documentsName);
         });
+    });
+
+    $(".reponseButton").on('click', function() {
+        $(this).hide();
+        $('.response').show();
+        $('.deleteResponse').show();
+    });
+
+    $('.deleteResponse').on('click', function() {
+        $('.response').hide();
+        $('.reponseButton').show();
+    });
+
+    $('.response').on('submit',function(e) {
+        e.preventDefault();
+
+        $.ajax({
+            type: $(this).attr("method"),
+            url: $(this).attr("action"),
+            headers: {name: $(this).attr('name')},
+            data: $(this).serialize(),
+        })
+        .done((data) => {
+            if(data.statut == 'ok') {
+                $(".zoneResponse").load();
+            } else {
+                alert("Vous devez être connecté pour écrire un commentaire");
+            }
+        });
+
+        return false
     });
 });

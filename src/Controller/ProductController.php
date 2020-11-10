@@ -8,14 +8,18 @@ use App\Form\ProductFormType;
 use App\Service\FileUploader;
 use App\Form\ProductReviewFormType;
 use App\Repository\ProductRepository;
+use App\Entity\ResponseToProductReview;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ProductReviewRepository;
+use App\Form\ResponseToProductReviewFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Repository\ResponseToProductReviewRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * @Route("/produits")
@@ -78,18 +82,60 @@ class ProductController extends AbstractController
     }
 
     /**
+     * @Route("/Répondre/{slug}/commentaire/{productReview_id}", name="comment_response")
+     * @ParamConverter("productReview", options={"mapping": {"productReview_id": "id"}})
+     */
+    public function ResponseToAComment(Request $request, Product $product, ProductReview $productReview, ?UserInterface $user, EntityManagerInterface $entityManager)gi
+    {
+        if($request->isXmlHttpRequest() != true) {
+            return new JsonResponse(['statut' => 'error', 'error' => 'Accès non autorisé.']);
+        }
+
+        $responseToProductReview = new ResponseToProductReview;
+        $form = $this->createForm(ResponseToProductReviewFormType::class, $responseToProductReview);
+        $form->handleRequest($request);
+
+        if ($user) {
+            if ($form->isSubmitted() && $form->isValid()) {
+                // j'envoie l'agent courant dans le setter de l'agent.
+                $responseToProductReview->setWritedAt(new \Datetime);
+                $responseToProductReview->setAuthor($user);
+                $responseToProductReview->setRespondTo($productReview);
+                // Sauvegarde et envoie des données
+                $entityManager->persist($responseToProductReview);
+                $entityManager->flush();
+
+                //return new JsonResponse(['statut' => 'ok', 'url' => $_SERVER['HTTP_REFERER']]);
+                return new JsonResponse([
+                    'statut'    => 'ok'
+                ]);
+            }
+        } else {
+            return new JsonResponse([
+                'statut'    => 'notConnected',
+            ]);
+        }
+    }
+
+    /**
      * @Route("/details/{slug}", name="product_show")
      */
-    public function show(Request $request, Product $product, ProductReviewRepository $productReviewRepository)
+    public function show(Request $request, Product $product, ProductReviewRepository $productReviewRepository, ResponseToProductReviewRepository $responseToProductReviewRepository)
     {
         $productReview = new ProductReview;
         $form = $this->createForm(ProductReviewFormType::class, $productReview);
         $form->handleRequest($request);
 
+        $responseToProductReview = new ResponseToProductReview;
+        $formResponse = $this->createForm(ResponseToProductReviewFormType::class, $responseToProductReview);
+        $formResponse->handleRequest($request);
+
         return $this->render('product/details.html.twig', [
             'product' => $product,
             'productReviews' => $productReviewRepository->findBy(['product' => $product],['id' => 'DESC']),
-            'form' => $form->createView()
+            'responseToProductReviews' => $responseToProductReviewRepository->findAll(),
+            'form' => $form->createView(),
+            'formResponse' => $formResponse->createView(),
         ]);
     }
 

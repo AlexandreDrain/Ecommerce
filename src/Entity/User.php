@@ -68,6 +68,11 @@ class User implements UserInterface
      */
     private $productReviews;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ResponseToProductReview::class, mappedBy="author")
+     */
+    private $responseToProductReviews;
+
     public function __toString()
     {
         return $this->firstName;
@@ -76,6 +81,7 @@ class User implements UserInterface
     public function __construct()
     {
         $this->productReviews = new ArrayCollection();
+        $this->responseToProductReviews = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -241,6 +247,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($productReview->getAuthor() === $this) {
                 $productReview->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ResponseToProductReview[]
+     */
+    public function getResponseToProductReviews(): Collection
+    {
+        return $this->responseToProductReviews;
+    }
+
+    public function addResponseToProductReview(ResponseToProductReview $responseToProductReview): self
+    {
+        if (!$this->responseToProductReviews->contains($responseToProductReview)) {
+            $this->responseToProductReviews[] = $responseToProductReview;
+            $responseToProductReview->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResponseToProductReview(ResponseToProductReview $responseToProductReview): self
+    {
+        if ($this->responseToProductReviews->contains($responseToProductReview)) {
+            $this->responseToProductReviews->removeElement($responseToProductReview);
+            // set the owning side to null (unless already changed)
+            if ($responseToProductReview->getAuthor() === $this) {
+                $responseToProductReview->setAuthor(null);
             }
         }
 
