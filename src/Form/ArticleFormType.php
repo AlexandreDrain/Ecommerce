@@ -25,7 +25,6 @@ class ArticleFormType extends AbstractType
                 'label' => 'Contenu',
                 'attr' => [
                     'placeholder' => 'Les balises html sont prise en compte, n\'hésitez pas à les utiliser !'
-
                 ]
             ])
             ->add('pictures', null, [

@@ -25,7 +25,7 @@
   background-color: var(--violet);
   border-color: var(--violet);
 }
-var(--salmon)
+
 .btn-outline-violet:focus, .btn-outline-violet.focus {
   box-shadow: 0 0 0 0.2rem rgba(59, 3, 133, 0.5);
 }
