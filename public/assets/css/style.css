@@ -180,3 +180,13 @@ var(--salmon)
 {
     background-color: #d614bc;
 }
+
+.response, .deleteResponse, .msgInvalidForm
+{
+  display: none;
+}
+
+.msgInvalidForm
+{
+  color: crimson;
+}

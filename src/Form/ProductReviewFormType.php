@@ -14,7 +14,7 @@ class ProductReviewFormType extends AbstractType
         $builder
             ->add('content', null, [
                 'attr' => [
-                    'class' => 'test'
+                    'class' => 'productReviewContent'
                 ]
             ])
         ;

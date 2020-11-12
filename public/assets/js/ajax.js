@@ -1,6 +1,4 @@
 $(document).ready(function() {
-    $('.response').hide();
-    $('.deleteResponse').hide();
 
     $('#add_cart').on('click',function() {
         // ajout au panier
@@ -16,8 +14,8 @@ $(document).ready(function() {
 
         /*Si la longueur de la valeur du champ #prenom est 0 (c'est-à-dire si
         le champ n'a pas été rempli), on affiche un message et on empêche l'envoi*/
-        if($(".test").val().length === 0){
-            $(".test").after("<span style='color:red;'>Merci de remplir ce champ</span>");
+        if($(".productReviewContent").val().length === 0){
+            $(".productReviewContent").after("<span style='color:red;'>Merci de remplir ce champ</span>");
             event.preventDefault();
         } else {
             //On effectue nos requêtes Ajax, sérialise, etc...
@@ -29,8 +27,15 @@ $(document).ready(function() {
             })
             .done((data) => {
                 if(data.statut == 'ok') {
-                    //window.location.href = data.url;
-                    //console.log(data);
+                    // Pour recharger la partie des messages, mais du coup les boutons etc ne sont plus actif .. donc pas très utile a moins de trouver un moyen de rendre les bouton actif
+                    // $.ajax({
+                    //     type: $(this).parents('form').attr('method'),
+                    //     url: $(this).parents('form').attr('data-url'),
+                    //     headers: {name: $(this).parents('form').attr('name')},
+                    // })
+                    // .done(function() {
+                    //     $("#zoneAvis").load(" #zoneAvis");
+                    // })
                     if("content" in document.createElement("template")) {
                         let template = document.querySelector('#tpl-avis');
                         let clone = document.importNode(template.content, true);
@@ -60,33 +65,51 @@ $(document).ready(function() {
         });
     });
 
-    $(".reponseButton").on('click', function() {
-        $(this).hide();
-        $('.response').show();
-        $('.deleteResponse').show();
+
+    $(".responseButton").on("click", function() {
+        let id = $(this).attr('id');
+        
+        $("button[id='" + id + "']").hide();
+        $("[id='" + id + "']").show();
+        $("span[id='" + id + "']").hide();
     });
 
     $('.deleteResponse').on('click', function() {
-        $('.response').hide();
-        $('.reponseButton').show();
+        let id = $(this).attr('id');
+
+        $("form[id='" + id + "']").hide();
+        $("button[id='" + id + "']").show();
+        $("span[id='" + id + "']").hide();
     });
 
     $('.response').on('submit',function(e) {
         e.preventDefault();
+        let id = $(this).attr('id');
+        if($(this).serialize() == "textResponse="){
 
-        $.ajax({
-            type: $(this).attr("method"),
-            url: $(this).attr("action"),
-            headers: {name: $(this).attr('name')},
-            data: $(this).serialize(),
-        })
-        .done((data) => {
-            if(data.statut == 'ok') {
-                $(".zoneResponse").load();
-            } else {
-                alert("Vous devez être connecté pour écrire un commentaire");
-            }
-        });
+            $("span[id='" + id + "']").show();
+
+        } else {
+
+            $.ajax({
+                type: $(this).attr("method"),
+                url: $(this).attr("action"),
+                headers: {name: $(this).attr('name')},
+                data: $(this).serialize(),
+            })
+            .done((data) => {
+                if(data.statut == 'ok') {
+                    $(".zoneResponse[id='" + data.productReviewId + "']").load(" .zoneResponse[id='" + data.productReviewId + "']");
+                } else if (data.statut == "formNotValid") {
+                    alert("Veuillez remplir correctement le formulaire");
+
+                } else {
+                    alert("Vous devez être connecté pour écrire un commentaire");
+
+                }
+            });
+
+        }
 
         return false
     });

@@ -91,23 +91,30 @@ class ProductController extends AbstractController
             return new JsonResponse(['statut' => 'error', 'error' => 'Accès non autorisé.']);
         }
 
-        $responseToProductReview = new ResponseToProductReview;
-        $form = $this->createForm(ResponseToProductReviewFormType::class, $responseToProductReview);
-        $form->handleRequest($request);
+        // $form = $this->createForm(ResponseToProductReviewFormType::class, $responseToProductReview);
+        // $form->handleRequest($request);
 
         if ($user) {
-            if ($form->isSubmitted() && $form->isValid()) {
-                // j'envoie l'agent courant dans le setter de l'agent.
-                $responseToProductReview->setWritedAt(new \Datetime);
-                $responseToProductReview->setAuthor($user);
-                $responseToProductReview->setRespondTo($productReview);
-                // Sauvegarde et envoie des données
-                $entityManager->persist($responseToProductReview);
-                $entityManager->flush();
+            if (array_key_exists("textResponse", $_POST)) {
+                if (isset($_POST["textResponse"]) && !empty($_POST["textResponse"])) {
+                    $responseToProductReview = new ResponseToProductReview;
 
-                //return new JsonResponse(['statut' => 'ok', 'url' => $_SERVER['HTTP_REFERER']]);
+                    $responseToProductReview->setContent($_POST["textResponse"]);
+                    $responseToProductReview->setWritedAt(new \Datetime);
+                    $responseToProductReview->setAuthor($user);
+                    $responseToProductReview->setRespondTo($productReview);
+                    // Sauvegarde et envoie des données
+                    $entityManager->persist($responseToProductReview);
+                    $entityManager->flush();
+
+                    return new JsonResponse([
+                        'statut'    => 'ok',
+                        'productReviewId'    => $productReview->getId(),
+                    ]);
+                }
+            } else {
                 return new JsonResponse([
-                    'statut'    => 'ok'
+                    'statut'    => 'formNotValid',
                 ]);
             }
         } else {
@@ -126,16 +133,23 @@ class ProductController extends AbstractController
         $form = $this->createForm(ProductReviewFormType::class, $productReview);
         $form->handleRequest($request);
 
-        $responseToProductReview = new ResponseToProductReview;
-        $formResponse = $this->createForm(ResponseToProductReviewFormType::class, $responseToProductReview);
-        $formResponse->handleRequest($request);
+        $productReviewsCollection = $productReviewRepository->findBy(['product' => $product],['id' => 'DESC']);
+        // $i = 0;
+        // foreach ($productReviewsCollection as $productReviewCollection) {
+
+        //     $responseToProductReview = new ResponseToProductReview;
+        //     $formResponse = $this->get('form.factory')->createNamed('response_to_product_review_form' . $i, ResponseToProductReviewFormType::class, $responseToProductReview);
+        //     // $formResponse = $this->createForm(ResponseToProductReviewFormType::class, $responseToProductReview);
+        //     $formResponse->handleRequest($request);
+        //     $i++;
+        // }
 
         return $this->render('product/details.html.twig', [
             'product' => $product,
-            'productReviews' => $productReviewRepository->findBy(['product' => $product],['id' => 'DESC']),
+            'productReviews' => $productReviewsCollection,
             'responseToProductReviews' => $responseToProductReviewRepository->findAll(),
             'form' => $form->createView(),
-            'formResponse' => $formResponse->createView(),
+            // 'formResponse' => $formResponse->createView(),
         ]);
     }
 

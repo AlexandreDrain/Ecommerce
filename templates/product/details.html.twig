@@ -42,35 +42,45 @@
                     <p class="card-text">{{ avis.content }}</p>
                     <div class="d-flex justify-content-between">
                         <p class="card-text"><small class="text-muted">Commenté à {{ avis.writedAt|date("Y-m-d") }}</small></p>
-                        <button class="reponseButton btn btn-outline-mer">Répondre</button>
+                        <button class="responseButton btn btn-outline-mer" id="{{ avis.id }}">Répondre</button>
                     </div>
                 </div>
             </div>
-            <div class="d-flex justify-content-end zoneResponse">
+            <div class="d-flex flex-column align-items-end zoneResponse" id="{{ avis.id }}">
                 {% for response in responseToProductReviews %}
-                    <div id="zoneReponse" class="col-8">
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ response.author }} TO ----> {{ response.RespondTo.author }}</h5>
-                                <hr>
-                                <p class="card-text">{{ response.content }}</p>
-                                <div class="d-flex justify-content-between">
-                                    <p class="card-text"><small class="text-muted">Commenté à {{ response.writedAt|date("Y-m-d") }}</small></p>
-                                    <button class="reponseButton btn btn-outline-mer">Répondre</button>
+                    {% if response.respondTo.id == avis.id %}
+                        <div class="col-8">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ response.author }} Répond à ----> {{ response.RespondTo.author }}</h5>
+                                    <hr>
+                                    <p class="card-text">{{ response.content }}</p>
+                                    <div class="d-flex justify-content-between">
+                                        <p class="card-text"><small class="text-muted">Commenté à {{ response.writedAt|date("Y-m-d") }}</small></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    {% endif %}
                 {% endfor %}
             </div>
-                
-            {{ form_start(formResponse, {'action': path('comment_response', {'slug': product.slug, 'productReview_id': avis.id}), 'method': 'POST', 'attr' : {"class" : "response"} }) }}
+
+            {# {{ form_start(formResponse, {'action': path('comment_response', {'slug': product.slug, 'productReview_id': avis.id}), 'method': 'POST', 'attr' : {"class" : "response"} }) }}
                 {{ form_widget(formResponse, {'attr' : {"label" : "Répondre à " ~ avis.author } }) }}
-                <!-- Moi aussi c'est trop bien, j'adore l'histoire, même si elle est glauque -->
                 <input type="submit" value="Soumettre" class="btn btn-outline-mer">
                 <p class="deleteResponse btn btn-outline-warning mt-3">Annuler ma réponse</p>
-            {{ form_end(formResponse) }}
-
+            {{ form_end(formResponse) }} #}
+            <form method="post" action="{{ path('comment_response', {'slug': product.slug, 'productReview_id': avis.id}) }}" id="{{ avis.id }}" class="response" name="product_response_review_form{{ avis.id }}">
+                <div class="form-group">
+                    <label for="textResponse">Écrire</label>
+                    <textarea name="textResponse" class="form-control" id="textResponse" rows="3" id="{{ avis.id }}"></textarea>
+                </div>
+                <div class="d-flex mb-3">
+                    <input type="submit" value="Soumettre" class="btn btn-outline-mer mr-2">
+                    <p class="deleteResponse btn btn-outline-warning m-0" id="{{ avis.id }}">Annuler ma réponse</p>
+                </div>
+                <span class='msgInvalidForm' id="{{ avis.id }}">Merci de remplir ce champ</span>
+            </form>
         {% endfor %}
     </div>
 </div>
@@ -83,6 +93,7 @@
             <p class="card-text avis-content"></p>
             <div class="d-flex justify-content-between">
                 <p class="card-text"><small class="text-muted">Commenté à <span class="avis-date"></span></small></p>
+                <button class="responseButton btn btn-outline-mer">Répondre</button>
             </div>
         </div>
     </div>
