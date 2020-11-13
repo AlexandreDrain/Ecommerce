@@ -183,10 +183,10 @@
 
 .response, .deleteResponse, .msgInvalidForm
 {
-  display: none;
+    display: none;
 }
 
 .msgInvalidForm
 {
-  color: crimson;
+    color: crimson;
 }
