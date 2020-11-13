@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+    $(".response").hide();
+    $(".deleteResponse").hide();
+    $(".msgInvalidForm").hide();
+
     $('#add_cart').on('click',function() {
         // ajout au panier
         $.getJSON($(this).data('url'), {quantity : 1})
