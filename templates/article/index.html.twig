@@ -1,29 +1,29 @@
-{% extends 'base.html.twig' %}
+{% extends "base.html.twig" %}
 
 {% block title %}Tout les articles{% endblock %}
 
 {% block body %}
 <div class="container mt-3">
-    <h1 class="text-center mb-3">Tout les articles sur vos jeux favoris !</h1>
-    <div class="d-flex flex-column align-items-center">
+    <h1 class="text-center mb-3">Listes de tout les articles</h1>
+    <div class="d-flex flex-column">
         {% for article in articles %}
-            <div class="card mb-3 col-lg-8 col-md-6">
+            <div class="card mb-3 mr-2 col-8 flex-wrap">
                 {% if article.pictures|length > 1 %}
-                    <div class="d-flex flex-row flex-wrap">
+                    <div class="d-flex flex-wrap">
                         {% for picture in article.pictures %}
                             {% set img = picture.nameOfPicture == null ? "images/pas_dimage.jpg" : picture.passOfPicture ~ picture.nameOfPicture %}
-                                <figure class="mb-3 col-6">
-                                    <img src="{{ asset("assets/" ~ img) }}" class="card-img-top" alt="Image illustrant le titre du jeu">
-                                </figure>
+                            <figure class="mb-3 col-6">
+                                <img src="{{ asset('assets/' ~ img) }}" class="card-img-top" alt="Image illustrant le titre du jeu">
+                            </figure>
                         {% endfor %}
                     </div>
                 {% else %}
                     <div>
                         {% for picture in article.pictures %}
                             {% set img = picture.nameOfPicture == null ? "images/pas_dimage.jpg" : picture.passOfPicture ~ picture.nameOfPicture %}
-                                <figure class="mb-3">
-                                    <img src="{{ asset("assets/" ~ img) }}" class="card-img-top" alt="Image illustrant le titre du jeu">
-                                </figure>
+                            <figure class="mb-3">
+                                <img src="{{ asset('assets/' ~ img) }}" class="card-img-top" alt="Image illustrant le titre du jeu">
+                            </figure>                        
                         {% endfor %}
                     </div>
                 {% endif %}
@@ -33,7 +33,12 @@
                     <div class="d-flex justify-content-between flex-wrap">
                         <p class="card-text"><small class="text-muted">Post crée le {{ article.publishedAt|date("Y-m-d") }}</small></p>
                         <div class="ml-auto">
-                            <a href="{{ path("article_show", {"slug" : article.slug}) }}" class="btn btn-outline-mer"><small>Détails de l'article</small></a>
+                            {% if app.user == article.author %}
+                                <a href="{{ path('article_edit', {'slug' : article.slug}) }}"
+                                    class="btn btn-outline-warning"><small>Modifier cet article ?</small></a>
+                            {% endif %}
+                            <a href="{{ path('article_show', {'slug' : article.slug}) }}"
+                                class="btn btn-outline-mer"><small>Détails de l'article</small></a>
                         </div>
                     </div>
                 </div>

@@ -117,4 +117,19 @@ $(document).ready(function() {
 
         return false
     });
+
+    // Activation et désactivation des articles
+    // $("#validateOrNotArticle").on("click", function() {
+    //     $.ajax({
+    //         type: "post",
+    //         url: $(this).attr("data-url"),
+    //     })
+    //     .done((data) => {
+    //         if(data.statut == 'ok') {
+    //             $(this).parent().load(" .zoneAction[id='" + data.id + "']");
+    //         } else {
+    //             alert("Vous n'êtes pas authorisé à exécuter cette action");
+    //         }
+    //     });
+    // });
 });

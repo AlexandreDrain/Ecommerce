@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration stock des produits{% endblock %}
+
+{% block body %}
+<div class="container mt-3">
+    <h1 class="text-center mb-3">Administration des stocks</h1>
+    <div class="d-flex flex-wrap justify-content-between">
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    <th scope="col" class="text-center">ID</th>
+                    <th scope="col" class="text-center">Titre du produit</th>
+                    <th scope="col" class="text-center">Disponibilité du produit</th>
+                    <th scope="col" class="text-center">Stock</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for product in products %}
+                <tr>
+                    <th scope="row" class="text-center">{{ product.id }}</th>
+                    <td class="text-center">{{ product.title }}</td>
+                    <td class="text-center">{{ product.isAvailable == true ? "Disponible" : "Indisponible" }}</td>
+                    <td class="d-flex flex-wrap justify-content-center">
+                        <form action="{{ path('admin_stock_add', {'slug' : product.slug, 'stock' : product.stock.id}) }}" method="post">
+                            <input name="stock" type="number" value="{{ product.stock.quantity }}" min="0" max="1000">
+                            <input name="submit" type="submit" value="Valider le changement du stock">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="navigation">
+        {{ knp_pagination_render(products) }}
+    </div>
+</div>
+{% endblock %}

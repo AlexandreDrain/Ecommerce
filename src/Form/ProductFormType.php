@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Product;
 use App\Entity\Category;
+use App\Form\StockFormType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -60,6 +61,9 @@ class ProductFormType extends AbstractType
                 'choice_label' => 'title',
                 'mapped' => true,
                 'multiple' => true
+            ])
+            ->add('stock', StockFormType::class, [
+                'label' => false
             ])
         ;
     }

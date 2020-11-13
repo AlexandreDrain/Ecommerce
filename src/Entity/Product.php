@@ -72,7 +72,8 @@ class Product
     private $article;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Stock::class, inversedBy="product")
+     * @ORM\OneToOne(targetEntity=Stock::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $stock;
 
@@ -249,7 +250,7 @@ class Product
         return $this->stock;
     }
 
-    public function setStock(?Stock $stock): self
+    public function setStock(Stock $stock): self
     {
         $this->stock = $stock;
 

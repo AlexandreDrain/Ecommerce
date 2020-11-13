@@ -35,7 +35,8 @@ class ProductController extends AbstractController
     public function index(ProductRepository $productRepository)
     {
         return $this->render('product/index.html.twig', [
-            'products' => $productRepository->findBy(["isAvailable" => true]),
+            'productsInStock' => $productRepository->findProductByStockAndAvailability(true, 1),
+            'productsNotInStock' => $productRepository->findProductByStockAndNotAvailability(true, 0),
         ]);
     }
 

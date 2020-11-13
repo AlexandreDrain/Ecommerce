@@ -5,13 +5,17 @@
 {% block body %}
 <div class="container-fluid mt-3">
     <h1 class="text-center mb-3">Liste des produits trouvé</h1>
-    <div class="d-flex flex-wrap justify-content-between">
+    {% if products|length == 1 %}
+        <div class="d-flex justify-content-center">
+    {% else %}
+        <div class="d-flex flex-wrap justify-content-between">
+    {% endif %}
         {% for product in products %}
-            <div class="card mb-3 col-4">
+            <div class="card mb-3 col-lg-4" {{ product.stock < 1 ? "id='rupture'" }}>
                 {% set img = product.picture == null ? "images/pas_dimage.jpg" :  product.picture %}
                 <img src="{{ asset("assets/" ~ img) }}" class="card-img-top" alt="Image illustrant le titre du jeu">
                 <div class="card-body">
-                    <h5 class="card-title">{{ product.title }}</h5>
+                    <h5 class="card-title">{% if product.stock < 1 %}<STRIKE>{{ product.title }}</STRIKE> Produit en rupture de stock {% else %}{{ product.title }}{% endif %}</h5>
                     <p class="card-text">{{ product.description }}</p>
                     <div class="d-flex justify-content-between">
                         <p class="card-text"><small class="text-muted">Post crée le {{ product.createdAt|date("Y-m-d") }}</small></p>

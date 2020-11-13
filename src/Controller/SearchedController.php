@@ -14,7 +14,6 @@ class SearchedController extends AbstractController
      */
     public function index(ProductRepository $productRepository, Request $request)
     {
-
         if (null !== $request->query->get("q")) {
             if (!empty($request->query->get("q"))) {
                 $searched = $request->query->get("q");

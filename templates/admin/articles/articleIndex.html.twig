@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Liste of Articles{% endblock %}
+
+{% block body %}
+<div class="container mt-3">
+    <h1 class="text-center mb-3">Liste des Articles</h1>
+    <div class="d-flex flex-row mb-3 mt-3 justify-content-center flex-wrap">
+        <table class="table table-hover table-dark">
+            <thead>
+              <tr>
+                <th scope="col">Nom de l'article</th>
+                <th scope="col">Auteur</th>
+                <th scope="col">Date de publication</th>
+                <th scope="col">État de publication</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for article in articles %}
+                    <tr>
+                        <th>{{ article.title }}</th>
+                        <th>{{ article.author.email }}</th>
+                        <th>{{ article.publishedAt|date("Y-m-d H:m:s") }}</th>
+                        <th>{{ article.isPublished == 1 ? "Publié" : "En attente de publication" }}</th>
+                        <th class="d-flex flex-column zoneAction" id="{{ article.id }}">
+                            <a class="btn btn-outline-mer mb-2 mr-3" href="{{ path("article_show", {"slug": article.slug}) }}">Détails de l'article</a>
+                            <form action="{{ path("admin_validate_article", {"slug": article.slug}) }}" method="post">
+                                <input type="submit" id="validateOrNotArticle" class="btn btn-outline-salmon" value="{{ article.isPublished == 1 ? "Désactiver cet article" : "Accepter la publication" }}">
+                            </form>
+                        </th>
+                    </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+    </div>
+</div>
+{% endblock %}

@@ -8,6 +8,7 @@ use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -33,7 +34,7 @@ class ArticleController extends AbstractController
      * 
      * @Security("is_granted('ROLE_REPORTER')")
      */
-    public function new(Request $request, EntityManagerInterface $entityManager)
+    public function new(Request $request, EntityManagerInterface $entityManager, ?UserInterface $user)
     {
         $article = new Article;
         $form = $this->createForm(ArticleFormType::class, $article);
@@ -41,6 +42,7 @@ class ArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $article->setAuthor($user);
             $article->setPublishedAt(new \Datetime);
             $article->setisPublished(false);
             // Envoyer un email a un modérateur pour qu'il active ou non l'article.
@@ -74,25 +76,31 @@ class ArticleController extends AbstractController
      * @Security("is_granted('ROLE_REPORTER')")
      * 
      */
-    public function edit(Request $request, EntityManagerInterface $entityManager)
+    public function edit(Request $request, EntityManagerInterface $entityManager, Article $article, ?UserInterface $user)
     {
+        if ($user != $article->getAuthor()) {
+            $this->addFlash("danger", "Vous n'êtes pas le créateur de cet article, vous ne pouvez donc pas le modifier");
+            return $this->redirectToRoute();
+        }
 
         $form = $this->createForm(ArticleFormType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $article->setIsPublished(false);
             $entityManager->persist($article);
             $entityManager->flush();
 
-            $this->addFlash("success", "Article bien crée, en attente de validation par un modérateur");
+            $this->addFlash("success", "Article bien modifié, en attente de validation par un modérateur");
             return $this->redirectToRoute("articles");
 
+        } else {
+            $this->addFlash("warning", "Valider la modification de l'article entraînera de nouveau la vérification de celui-ci, jusqu'à que ce soit fait l'article ne sera plus visible");
         }
 
         return $this->render('article/edit.html.twig', [
             'form' => $form->createView(),
         ]);
     }
-
 }

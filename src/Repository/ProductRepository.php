@@ -36,6 +36,38 @@ class ProductRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * @return Product[] Returns an array of Product objects
+     */
+    public function findProductByStockAndAvailability($available, $stock)
+    {
+        return $this->createQueryBuilder('p')
+            ->innerJoin('p.stock', 's')
+            ->where('p.isAvailable = :val')
+            ->setParameter('val', $available)
+            ->andWhere('s.quantity > :val2')
+            ->setParameter('val2', $stock)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Product[] Returns an array of Product objects
+     */
+    public function findProductByStockAndNotAvailability($available, $stock)
+    {
+        return $this->createQueryBuilder('p')
+            ->innerJoin('p.stock', 's')
+            ->where('p.isAvailable = :val')
+            ->setParameter('val', $available)
+            ->andWhere('s.quantity = :val2')
+            ->setParameter('val2', $stock)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Product[] Returns an array of Product objects
     //  */

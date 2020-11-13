@@ -4,9 +4,9 @@
 
 {% block body %}
 <div class="container-fluid mt-3">
-    <h1 class="text-center mb-3">Liste des produits</h1>
+    <h1 class="text-center mb-3">Liste des produits en stocks</h1>
     <div class="d-flex flex-wrap justify-content-between">
-        {% for product in products %}
+        {% for product in productsInStock %}
             <div class="card mb-3 col-lg-4 col-md-6">
                 {% set img = product.picture == null ? "images/pas_dimage.jpg" :  product.picture %}
                 <img src="{{ asset("assets/" ~ img) }}" class="card-img-top" alt="Image illustrant le titre du jeu">
@@ -24,5 +24,30 @@
             </div>
         {% endfor %}
     </div>
+
+    {% if productsNotInStock|length >= 1 %}
+        <h2 class="text-center mb-3">Ces produits seront bientôt disponibles</h2>
+
+        <div class="d-flex flex-wrap justify-content-between">
+            {% for product in productsNotInStock %}
+                <div class="card mb-3 col-lg-4 col-md-6" id="rupture">
+                    {% set img = product.picture == null ? "images/pas_dimage.jpg" :  product.picture %}
+                    <img src="{{ asset("assets/" ~ img) }}" class="card-img-top" alt="Image illustrant le titre du jeu">
+                    <div class="card-body">
+                        <h5 class="card-title"><STRIKE>{{ product.title }}</STRIKE> Produit indisponible pour le moment</h5>
+                        <p class="card-text">{{ product.description }}</p>
+                        <div class="d-flex justify-content-between flex-wrap align-self-end">
+                            <p class="card-text"><small class="text-muted">Post crée le {{ product.createdAt|date("Y-m-d") }}</small></p>
+                            <div class="ml-auto">
+                                <button class="btn btn-outline-salmon2"><small><STRIKE>Ajouter au panier</STRIKE></small></button>
+                                <a href="{{ path("product_show", {"slug" : product.slug}) }}" class="btn btn-outline-mer"><small>Détails du jeu</small></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
 </div>
 {% endblock %}

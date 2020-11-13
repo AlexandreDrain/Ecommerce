@@ -1,3 +1,1 @@
 mettre en bdd le panier lors de la connexion, if already exist and panier dans la session vide alors récupérer le panier de la bdd
-
-ET SURTOUT FAIRE EN SORTE DE POUVOIR VALIDER DES ARTICLES DEPUIS LA PARTIE ADMIN
